@@ -2,7 +2,11 @@ package ch.makery.address.control;
 
 import java.io.IOException;
 
+import ch.makery.address.model.Person;
+import ch.makery.address.view.PersonOverviewController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +17,37 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    
+    /**
+     * The data as an observable list of Persons.
+     */
+    private ObservableList<Person> personData = FXCollections.observableArrayList();
+
+    /**
+     * Constructor
+     */
+    public MainApp() {
+        // Add some sample data
+        personData.add(new Person("Hans", "Muster"));
+        personData.add(new Person("Ruth", "Mueller"));
+        personData.add(new Person("Heinz", "Kurz"));
+        personData.add(new Person("Cornelia", "Meier"));
+        personData.add(new Person("Werner", "Meyer"));
+        personData.add(new Person("Lydia", "Kunz"));
+        personData.add(new Person("Anna", "Best"));
+        personData.add(new Person("Stefan", "Meier"));
+        personData.add(new Person("Martin", "Mueller"));
+    }
+
+    /**
+     * Returns the data as an observable list of Persons. 
+     * @return
+     */
+    public ObservableList<Person> getPersonData() {
+        return personData;
+    }
+
+    // ... THE REST OF THE CLA
 
     @Override
     public void start(Stage primaryStage) {
@@ -24,15 +59,14 @@ public class MainApp extends Application {
         showPersonOverview();
     }
 
-    /**
-     * Initializes the root layout.
-     */
+    
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("../view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
+            
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -47,7 +81,7 @@ public class MainApp extends Application {
      * Shows the person overview inside the root layout.
      */
     public void showPersonOverview() {
-        try {
+    	try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("../view/PersonOverview.fxml"));
@@ -55,10 +89,16 @@ public class MainApp extends Application {
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(personOverview);
+
+            // Give the controller access to the main app.
+            PersonOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Returns the main stage.
@@ -71,4 +111,5 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
 }
