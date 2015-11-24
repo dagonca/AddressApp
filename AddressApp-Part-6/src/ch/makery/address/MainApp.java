@@ -190,16 +190,16 @@ public class MainApp extends Application {
 	 * person file.
 	 */
 	public void initRootLayout() {
-		StackPane root = new StackPane();
-		root.setId("pane");
+		StackPane root5 = new StackPane();
+		
 		// Show the scene containing the root layout.
-		Scene scene2 = new Scene(root, 700, 400, Color.BEIGE);
-	
+		Scene scene2 = new Scene(root5, 700, 400, Color.AQUAMARINE);
+		
 		primaryStage.setScene(scene2);
 		
 		lbl = new Label("Adress App");
 		lbl.setFont(Font.font(70));
-		root.getChildren().add(lbl);
+		root5.getChildren().add(lbl);
 
 		AnimationTimer timer = new MyTimer();
 		timer.start();
@@ -216,10 +216,7 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
-			 
-
-			StackPane root = new StackPane();
-			// Show the scene containing the root layout.
+			
 			Scene scene = new Scene(rootLayout);
 		
 			primaryStage.setScene(scene);
