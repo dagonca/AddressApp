@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minWidth="5.0" prefHeight="248.0" prefWidth="225.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="ch.makery.address.view.Ejercicio1Controller">
+  <!-- TODO Add Nodes -->
+  <children>
+    <Label layoutX="27.0" layoutY="25.0" text="EJERCICIO" />
+    <RadioButton layoutX="28.0" layoutY="55.0" mnemonicParsing="false" text="RadioButton" />
+  </children>
+  <padding>
+    <Insets bottom="50.0" left="100.0" right="50.0" top="50.0" />
+  </padding>
+</AnchorPane>
