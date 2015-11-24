@@ -1,23 +1,69 @@
 package ch.makery.address;
 
+import static java.lang.Math.random;
+
+import java.awt.Panel;
 import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import org.controlsfx.dialog.Dialogs;
 
@@ -32,15 +78,13 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+	private Label lbl;
+	private double opacity = 1;
 
-	/**
-	 * The data as an observable list of Persons.
-	 */
+
 	private ObservableList<Person> personData = FXCollections.observableArrayList();
 
-	/**
-	 * Constructor
-	 */
+	
 	public MainApp() {
 		// Add some sample data
 		personData.add(new Person("Hans", "Muster"));
@@ -56,38 +100,140 @@ public class MainApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		
+		
+		
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("AddressApp");
+		this.primaryStage.setTitle("Address App");
 
 		// Set the application icon.
 		this.primaryStage.getIcons().add(
 				new Image("file:resources/images/address_book_32.png"));
 
-		initRootLayout();
+		
+		
+		primaryStage.setTitle("JavaFX Welcome");
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 
-		showPersonOverview();
+        Text scenetitle = new Text("Welcome");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle, 0, 0, 2, 1);
+
+        Label userName = new Label("User Name:");
+        grid.add(userName, 0, 1);
+
+        TextField userTextField = new TextField();
+        grid.add(userTextField, 1, 1);
+
+        Label pw = new Label("Password:");
+        grid.add(pw, 0, 2);
+
+        PasswordField pwBox = new PasswordField();
+        grid.add(pwBox, 1, 2);
+
+        Button btn = new Button("Sign in");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(btn);
+        grid.add(hbBtn, 1, 4);
+
+        final Text actiontarget = new Text();
+        grid.add(actiontarget, 1, 6);
+
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent e) {
+                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setText("Sign in button pressed");
+                if (userTextField.getText().toString().equals("") && pwBox.getText().toString().equals("")) {
+               	 initRootLayout();
+                  
+            }
+            }
+        });
+		
+        Scene scene=new Scene(grid,300,275);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+		 
 	}
+	private class MyTimer extends AnimationTimer {
+
+        @Override
+        public void handle(long now) {
+        
+            doHandle();
+        }
+
+        private void doHandle() {
+
+            opacity -= 0.01;
+            lbl.opacityProperty().set(opacity);
+
+            if (opacity <= 0) {
+                stop();
+                System.out.println("Animation stopped");
+                initRootLayout2();
+                showPersonOverview();
+            }
+        }
+    }
 
 	/**
 	 * Initializes the root layout and tries to load the last opened
 	 * person file.
 	 */
 	public void initRootLayout() {
+		StackPane root = new StackPane();
+		root.setId("pane");
+		// Show the scene containing the root layout.
+		Scene scene2 = new Scene(root, 700, 400, Color.BEIGE);
+	
+		primaryStage.setScene(scene2);
+		
+		lbl = new Label("Adress App");
+		lbl.setFont(Font.font(70));
+		root.getChildren().add(lbl);
+
+		AnimationTimer timer = new MyTimer();
+		timer.start();
+		
+        
+
+        primaryStage.show();
+	}
+
+	public void initRootLayout2() {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
+			 
+
+			StackPane root = new StackPane();
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
+		
 			primaryStage.setScene(scene);
+		
 
 			// Give the controller access to the main app.
 			RootLayoutController controller = loader.getController();
 			controller.setMainApp(this);
+			
 
 			primaryStage.show();
+			
+	        
+	        
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -301,6 +447,7 @@ public class MainApp extends Application {
 	public ObservableList<Person> getPersonData() {
 		return personData;
 	}
+
 
 	public static void main(String[] args) {
 		launch(args);

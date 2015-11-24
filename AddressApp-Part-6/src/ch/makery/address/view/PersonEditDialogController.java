@@ -1,6 +1,12 @@
 package ch.makery.address.view;
 
+import java.time.LocalDate;
+
+import javax.rmi.CORBA.Util;
+import javax.rmi.CORBA.UtilDelegate;
+
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -27,7 +33,7 @@ public class PersonEditDialogController {
     @FXML
     private TextField cityField;
     @FXML
-    private TextField birthdayField;
+    private DatePicker birthdayField;
 
 
     private Stage dialogStage;
@@ -64,8 +70,17 @@ public class PersonEditDialogController {
         streetField.setText(person.getStreet());
         postalCodeField.setText(Integer.toString(person.getPostalCode()));
         cityField.setText(person.getCity());
-        birthdayField.setText(DateUtil.format(person.getBirthday()));
-        birthdayField.setPromptText("dd.mm.yyyy");
+        
+        
+        
+        birthdayField.setOnAction(e -> {
+            LocalDate date = birthdayField.getValue();
+          //  birthdayField.setValue(person.getBirthday());
+            
+        });
+
+       // birthdayField.setText(DateUtil.format(person.getBirthday()));
+        //birthdayField.setPromptText("dd.mm.yyyy");
     }
 
     /**
@@ -88,7 +103,7 @@ public class PersonEditDialogController {
             person.setStreet(streetField.getText());
             person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
             person.setCity(cityField.getText());
-            person.setBirthday(DateUtil.parse(birthdayField.getText()));
+            person.setBirthday(birthdayField.getValue());
 
             okClicked = true;
             dialogStage.close();
@@ -136,13 +151,7 @@ public class PersonEditDialogController {
             errorMessage += "No valid city!\n"; 
         }
 
-        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
-            errorMessage += "No valid birthday!\n";
-        } else {
-            if (!DateUtil.validDate(birthdayField.getText())) {
-                errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
-            }
-        }
+        
 
         if (errorMessage.length() == 0) {
             return true;

@@ -15,7 +15,9 @@
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
-
+.pane {
+   -fx-background-color: #616161;
+}
 .label-header {
     -fx-font-size: 32pt;
     -fx-font-family: "Segoe UI Light";
@@ -25,8 +27,8 @@
 
 .table-view {
     -fx-base: #1d1d1d;
-    -fx-control-inner-background: #1d1d1d;
-    -fx-background-color: #1d1d1d;
+    -fx-control-inner-background: #B6B6B6;
+    -fx-background-color: #616161;
     -fx-table-cell-border-color: transparent;
     -fx-table-header-border-color: transparent;
     -fx-padding: 5;
@@ -61,7 +63,7 @@
 }
 
 .split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
+    -fx-border-color: transparent #616161 transparent #616161;
     -fx-background-color: transparent, derive(#1d1d1d,20%);
 }
 
