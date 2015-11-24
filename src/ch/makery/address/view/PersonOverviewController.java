@@ -27,6 +27,8 @@ public class PersonOverviewController {
     private Label cityLabel;
     @FXML
     private Label birthdayLabel;
+    @FXML
+    private Label sexLabel;
 
     // Reference to the main application.
     private MainApp mainApp;
